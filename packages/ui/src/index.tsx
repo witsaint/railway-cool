@@ -25,7 +25,7 @@ export function PrimaryButton({
   ...props
 }: React.ComponentProps<typeof Button>) {
   return (
-    <Button color="primary" {...props}>
+    <Button variant="primary" {...props}>
       {children}
     </Button>
   );
