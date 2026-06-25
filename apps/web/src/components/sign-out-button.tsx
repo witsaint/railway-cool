@@ -9,7 +9,7 @@ export function SignOutButton() {
 
   return (
     <PrimaryButton
-      variant="bordered"
+      variant="outline"
       onPress={() =>
         authClient.signOut({
           fetchOptions: {
