@@ -1,5 +1,5 @@
 [build]
-builder = "NIXPACKS"
+builder = "RAILPACK"
 buildCommand = "pnpm install --frozen-lockfile && pnpm db:generate && pnpm --filter @repo/worker build"
 watchPatterns = ["/apps/worker/**", "/packages/**", "pnpm-lock.yaml", "package.json"]
 

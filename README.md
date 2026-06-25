@@ -101,6 +101,8 @@ GitHub 仓库：[https://github.com/witsaint/railway-cool](https://github.com/wi
 
 > **重要**：这是 pnpm workspace 共享 monorepo，两个 Service 的 **Root Directory 必须留空（仓库根 `/`）**，不要设为 `apps/web` 或 `apps/worker`，否则 `pnpm install` 无法解析 workspace 依赖。
 
+> **Railpack 说明**：Railway 默认使用 [Railpack](https://railpack.com) 构建。仓库根目录的 `package.json` 没有 `start` 脚本，Railpack 无法自动推断启动命令。每个 Service 需通过 **Config File Path** 指向各自的 `railway.toml`，并设置 **`RAILPACK_CONFIG_FILE`** 指向对应的 `railpack.json`（见下方表格）。
+
 ### 一、创建项目并连接 GitHub
 
 1. 打开 [Railway Dashboard](https://railway.app/dashboard)，点击 **New Project**
@@ -128,6 +130,12 @@ GitHub 仓库：[https://github.com/witsaint/railway-cool](https://github.com/wi
 | **Root Directory** | 留空（`/`） |
 | **Config File Path** | `/apps/web/railway.toml` |
 | **Watch Paths** | `/apps/web/**`、`/packages/**`（已在 `railway.toml` 中配置，可在 UI 核对） |
+
+在 **Variables** 中新增（Railpack 从仓库根构建，需显式指定配置文件路径）：
+
+| 变量 | 值 |
+|------|-----|
+| `RAILPACK_CONFIG_FILE` | `apps/web/railpack.json` |
 
 3. **Build Command**（由 `apps/web/railway.toml` 提供，可在 Settings → Deploy 核对）：
 
@@ -164,6 +172,12 @@ pnpm --filter @repo/web start
 | **Config File Path** | `/apps/worker/railway.toml` |
 | **Watch Paths** | `/apps/worker/**`、`/packages/**` |
 
+在 **Variables** 中新增：
+
+| 变量 | 值 |
+|------|-----|
+| `RAILPACK_CONFIG_FILE` | `apps/worker/railpack.json` |
+
 3. **Build Command**：
 
 ```bash
@@ -193,6 +207,7 @@ pnpm --filter @repo/worker start
 | `GITHUB_CLIENT_ID` | 是 | GitHub OAuth App Client ID |
 | `GITHUB_CLIENT_SECRET` | 是 | GitHub OAuth App Client Secret |
 | `NODE_ENV` | 否 | `production`（Railway 通常自动设置） |
+| `RAILPACK_CONFIG_FILE` | 是 | `apps/web/railpack.json`（见第三节） |
 
 #### Worker 服务
 
@@ -201,6 +216,7 @@ pnpm --filter @repo/worker start
 | `DATABASE_URL` | 是 | 与 Web 相同，引用 Postgres |
 | `WORKER_POLL_INTERVAL_MS` | 否 | 默认 `5000` |
 | `NODE_ENV` | 否 | `production` |
+| `RAILPACK_CONFIG_FILE` | 是 | `apps/worker/railpack.json`（见第四节） |
 
 **`BETTER_AUTH_URL` 占位符模式**（生成 Railway 域名后替换 `xxxx`）：
 
@@ -266,6 +282,22 @@ railway run --service web pnpm db:push:deploy
 ```
 
 CLI 未安装或未登录时，按上文 Dashboard 步骤即可完成部署。
+
+### 十、故障排查：No start command detected
+
+若构建日志出现：
+
+```text
+✖ No start command detected. Specify a start command: https://railpack.com/config/file
+```
+
+请逐项核对：
+
+1. **Config File Path** 是否分别为 `/apps/web/railway.toml` 与 `/apps/worker/railway.toml`
+2. **Root Directory** 是否留空（不要设为 `apps/web` 或 `apps/worker`）
+3. 各 Service 是否设置了 **`RAILPACK_CONFIG_FILE`**（Web：`apps/web/railpack.json`；Worker：`apps/worker/railpack.json`）
+4. Settings → Deploy → **Builder** 是否为 **Railpack**（`railway.toml` 中 `builder = "RAILPACK"`）
+5. 若仍失败，可在 Variables 中临时添加 **`RAILPACK_START_CMD`** 覆盖启动命令（Web：`pnpm --filter @repo/web start`；Worker：`pnpm --filter @repo/worker start`），确认命令可用后再依赖 `railpack.json`
 
 ## 技术栈
 
