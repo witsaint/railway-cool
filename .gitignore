@@ -8,10 +8,11 @@ dist
 .turbo
 out
 
-# env
+# env (local dev only — never used on Railway deploy)
 .env
 .env.local
 .env.*.local
+packages/db/.env
 
 # prisma
 packages/db/prisma/*.db

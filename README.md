@@ -101,7 +101,7 @@ GitHub 仓库：[https://github.com/witsaint/railway-cool](https://github.com/wi
 
 > **重要**：这是 pnpm workspace 共享 monorepo，两个 Service 的 **Root Directory 必须留空（仓库根 `/`）**，不要设为 `apps/web` 或 `apps/worker`，否则 `pnpm install` 无法解析 workspace 依赖。
 
-> **Railpack 说明**：Railway 默认使用 [Railpack](https://railpack.com) 构建。仓库根目录的 `package.json` 没有 `start` 脚本，Railpack 无法自动推断启动命令。每个 Service 需通过 **Config File Path** 指向各自的 `railway.toml`，并设置 **`RAILPACK_CONFIG_FILE`** 指向对应的 `railpack.json`（见下方表格）。
+> **Railpack 说明**：Railway 默认使用 [Railpack](https://railpack.com) 构建。仓库根目录已提供 `railpack.json` 与 `scripts/railway-start.mjs`：构建阶段 Railpack 会自动读取根目录配置；运行时按 Railway 注入的 `RAILWAY_SERVICE_NAME` 选择 Web 或 Worker 启动命令（服务名建议包含 `web` / `worker`）。各 Service 的 **Config File Path** 仍指向各自的 `railway.toml`（见下方表格）。`railway.toml` **不能**声明 `RAILPACK_*` 环境变量（[官方 schema](https://railway.com/railway.schema.json) 仅支持 build/deploy 字段），因此无需在 Dashboard 手动设置 `RAILPACK_CONFIG_FILE`。
 
 ### 一、创建项目并连接 GitHub
 
@@ -111,6 +111,8 @@ GitHub 仓库：[https://github.com/witsaint/railway-cool](https://github.com/wi
 4. Railway 可能自动创建一个 Service，可保留或删除后手动重建
 
 ### 二、PostgreSQL（已有实例）
+
+> **部署前必做**：在 Web 服务 **Variables** 中设置 `DATABASE_URL`（引用 Postgres），**然后再触发首次部署**。`preDeployCommand` 会在部署阶段执行 `pnpm db:push:deploy`，此时必须能读到 Railway 注入的 `DATABASE_URL`；未设置时会失败，若误用本地 `.env.example` 中的 localhost 会出现 P1001。
 
 若项目中已有 Postgres 插件（例如 `reseau.proxy.rlwy.net:46307`）：
 
@@ -131,23 +133,19 @@ GitHub 仓库：[https://github.com/witsaint/railway-cool](https://github.com/wi
 | **Config File Path** | `/apps/web/railway.toml` |
 | **Watch Paths** | `/apps/web/**`、`/packages/**`（已在 `railway.toml` 中配置，可在 UI 核对） |
 
-在 **Variables** 中新增（Railpack 从仓库根构建，需显式指定配置文件路径）：
-
-| 变量 | 值 |
-|------|-----|
-| `RAILPACK_CONFIG_FILE` | `apps/web/railpack.json` |
-
 3. **Build Command**（由 `apps/web/railway.toml` 提供，可在 Settings → Deploy 核对）：
 
 ```bash
 pnpm install --frozen-lockfile && pnpm db:generate && pnpm --filter @repo/web build
 ```
 
-4. **Pre-deploy Command**（每次部署前同步 schema）：
+4. **Pre-deploy Command**（每次部署前同步 schema；依赖 Web 服务已配置 `DATABASE_URL` 引用）：
 
 ```bash
 pnpm db:push:deploy
 ```
+
+该命令**不会**读取本地 `.env` 文件，仅使用 Railway 环境变量中的 `DATABASE_URL`。
 
 5. **Start Command**：
 
@@ -171,12 +169,6 @@ pnpm --filter @repo/web start
 | **Root Directory** | 留空（`/`） |
 | **Config File Path** | `/apps/worker/railway.toml` |
 | **Watch Paths** | `/apps/worker/**`、`/packages/**` |
-
-在 **Variables** 中新增：
-
-| 变量 | 值 |
-|------|-----|
-| `RAILPACK_CONFIG_FILE` | `apps/worker/railpack.json` |
 
 3. **Build Command**：
 
@@ -207,7 +199,6 @@ pnpm --filter @repo/worker start
 | `GITHUB_CLIENT_ID` | 是 | GitHub OAuth App Client ID |
 | `GITHUB_CLIENT_SECRET` | 是 | GitHub OAuth App Client Secret |
 | `NODE_ENV` | 否 | `production`（Railway 通常自动设置） |
-| `RAILPACK_CONFIG_FILE` | 是 | `apps/web/railpack.json`（见第三节） |
 
 #### Worker 服务
 
@@ -216,7 +207,6 @@ pnpm --filter @repo/worker start
 | `DATABASE_URL` | 是 | 与 Web 相同，引用 Postgres |
 | `WORKER_POLL_INTERVAL_MS` | 否 | 默认 `5000` |
 | `NODE_ENV` | 否 | `production` |
-| `RAILPACK_CONFIG_FILE` | 是 | `apps/worker/railpack.json`（见第四节） |
 
 **`BETTER_AUTH_URL` 占位符模式**（生成 Railway 域名后替换 `xxxx`）：
 
@@ -295,9 +285,35 @@ CLI 未安装或未登录时，按上文 Dashboard 步骤即可完成部署。
 
 1. **Config File Path** 是否分别为 `/apps/web/railway.toml` 与 `/apps/worker/railway.toml`
 2. **Root Directory** 是否留空（不要设为 `apps/web` 或 `apps/worker`）
-3. 各 Service 是否设置了 **`RAILPACK_CONFIG_FILE`**（Web：`apps/web/railpack.json`；Worker：`apps/worker/railpack.json`）
-4. Settings → Deploy → **Builder** 是否为 **Railpack**（`railway.toml` 中 `builder = "RAILPACK"`）
-5. 若仍失败，可在 Variables 中临时添加 **`RAILPACK_START_CMD`** 覆盖启动命令（Web：`pnpm --filter @repo/web start`；Worker：`pnpm --filter @repo/worker start`），确认命令可用后再依赖 `railpack.json`
+3. 仓库根目录是否存在 **`railpack.json`** 与 **`scripts/railway-start.mjs`**，且根 `package.json` 含 **`start`** 脚本
+4. Web / Worker 的 **Service 名称** 是否分别包含 `web` / `worker`（用于 `RAILWAY_SERVICE_NAME` 路由；也可在 Variables 中设置 **`RAILPACK_START_CMD`** 强制覆盖）
+5. Settings → Deploy → **Builder** 是否为 **Railpack**（`railway.toml` 中 `builder = "RAILPACK"`）
+6. 可选：仍可通过 **`RAILPACK_CONFIG_FILE`**（`apps/web/railpack.json` 或 `apps/worker/railpack.json`）覆盖 per-service Railpack 配置
+
+### 十一、故障排查：P1001 Can't reach database at localhost:5432
+
+若 pre-deploy 或 `db:push:deploy` 日志出现：
+
+```text
+Error: P1001: Can't reach database server at `localhost:5432`
+```
+
+说明 Prisma 使用了 **localhost** 连接串，而非 Railway Postgres。常见原因与处理：
+
+1. **Web 服务未设置 `DATABASE_URL`**  
+   进入 Web 服务 → **Variables** → **Add Variable** → **Reference** → 选择 Postgres 服务 → 变量名 `DATABASE_URL`  
+   引用值示例：`${{Postgres.DATABASE_URL}}`（`Postgres` 改为你画布上的 Postgres 服务名）
+
+2. **手动填了 localhost**  
+   删除 Variables 里指向 `localhost:5432` 的 `DATABASE_URL`，改用上一步的 Reference。
+
+3. **本地 `.env` 被打包进镜像**（少见）  
+   仓库已提供 `.dockerignore` 排除 `.env`；部署脚本也会在 pre-deploy 时忽略/移除镜像内的 `.env`，以 **Railway 环境变量为准**。
+
+4. **确认 pre-deploy 能读到变量**  
+   `preDeployCommand` 在 **Deploy** 阶段运行，可访问该服务的 Variables（含 Reference）。设置好 `DATABASE_URL` 后 **Redeploy** 即可。
+
+本地开发仍使用根目录 `.env`（`cp .env.example .env`）；`packages/db/.env` 可为指向根目录 `.env` 的 symlink，**不要提交**。
 
 ## 技术栈
 

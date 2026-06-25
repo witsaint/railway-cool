@@ -1,0 +1,23 @@
+# Keep local secrets and dev env out of Railpack build/deploy context
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.local
+**/.env.*.local
+
+# Local dependencies and build artifacts
+node_modules
+**/node_modules
+.pnpm-store
+.turbo
+dist
+.next
+out
+
+# Git and IDE
+.git
+.github
+.vscode
+.idea
+.DS_Store

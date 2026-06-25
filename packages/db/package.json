@@ -12,9 +12,9 @@
   "scripts": {
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
-    "db:push:deploy": "prisma db push --skip-generate",
+    "db:push:deploy": "node scripts/deploy-prisma.mjs push",
     "db:migrate": "prisma migrate dev",
-    "db:migrate:deploy": "prisma migrate deploy",
+    "db:migrate:deploy": "node scripts/deploy-prisma.mjs migrate",
     "db:studio": "prisma studio",
     "build": "tsc"
   },
