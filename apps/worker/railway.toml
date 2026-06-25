@@ -1,6 +1,7 @@
 [build]
 builder = "NIXPACKS"
-buildCommand = "pnpm install && pnpm db:generate && pnpm --filter @repo/worker build"
+buildCommand = "pnpm install --frozen-lockfile && pnpm db:generate && pnpm --filter @repo/worker build"
+watchPatterns = ["/apps/worker/**", "/packages/**", "pnpm-lock.yaml", "package.json"]
 
 [deploy]
 startCommand = "pnpm --filter @repo/worker start"

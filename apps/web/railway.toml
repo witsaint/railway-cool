@@ -1,8 +1,10 @@
 [build]
 builder = "NIXPACKS"
-buildCommand = "pnpm install && pnpm db:generate && pnpm --filter @repo/web build"
+buildCommand = "pnpm install --frozen-lockfile && pnpm db:generate && pnpm --filter @repo/web build"
+watchPatterns = ["/apps/web/**", "/packages/**", "pnpm-lock.yaml", "package.json"]
 
 [deploy]
+preDeployCommand = "pnpm db:push:deploy"
 startCommand = "pnpm --filter @repo/web start"
 healthcheckPath = "/api/health"
 healthcheckTimeout = 300
