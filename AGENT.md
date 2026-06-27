@@ -74,12 +74,12 @@ pnpm dev                           # 或 pnpm --filter @repo/web dev
 
 所有 **营销页 / Landing Page / 对外 UI** 必须遵循 [design.md](./design.md)：
 
-- 风格：**Minimalismo Fotográfico Elegante**（优雅极简、浅色-only）
-- 字体：Lora（标题）+ Helvetica Neue（正文）
-- 设计 token 定义在 `apps/web/src/app/globals.css`
-- 禁止 dark tech 主题用于首页；禁止 emoji 图标
+- 风格：**Wealth Video Hero**（深色 fintech、玻璃拟态、全屏视频背景）
+- 字体：Inter（现代 sans，无衬线）
+- 设计 token 定义在 `apps/web/src/app/globals.css`（`--bg-primary`、`--glass-bg`、`--blur` 等）
+- 首页为 **dark-only**；禁止浅色/Minimalismo 风格用于营销页；禁止 emoji 图标
 
-内部页面（dashboard、login）可沿用 HeroUI 默认组件，但新 UI 应倾向 design.md 的浅色极简风格。
+内部页面（dashboard、login）可沿用 HeroUI 默认组件；新营销 UI 应匹配 design.md 的深色玻璃拟态风格。
 
 ---
 
@@ -172,7 +172,7 @@ GitHub OAuth App 只允许一个 callback URL，因此：
 ### 不应该做
 
 - **不要提交** `.env`、`.env.local` 或任何密钥
-- 不要在 marketing 页面引入 dark mode / 深色 tech 主题
+- 不要在 marketing 页面使用浅色/Minimalismo 风格（营销页应为 Wealth Video Hero 深色主题）
 - 不要删除或绕过 Better Auth 会话检查（首页对已登录用户 redirect `/dashboard`）
 - 不要将 Railway Root Directory 设为 `apps/web`
 - 不要 force push `main`

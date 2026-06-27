@@ -1,11 +1,11 @@
-import type { Metadata } from "next";
-import { Lora } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const lora = Lora({
+const inter = Inter({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-lora",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -24,6 +24,7 @@ export const metadata: Metadata = {
     "product development",
     "Better Auth",
     "Prisma",
+    "fintech",
   ],
   authors: [{ name: "Railway Platform" }],
   openGraph: {
@@ -46,14 +47,20 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport: Viewport = {
+  themeColor: "#000000",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={lora.variable}>
-      <body className="min-h-screen bg-white antialiased">{children}</body>
+    <html lang="en" className={inter.variable}>
+      <body className="min-h-screen bg-black text-white antialiased">
+        {children}
+      </body>
     </html>
   );
 }

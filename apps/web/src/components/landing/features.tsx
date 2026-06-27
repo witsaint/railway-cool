@@ -23,28 +23,29 @@ const features = [
 
 export function Features() {
   return (
-    <section id="features" className="border-t border-[var(--light-grey-border)] bg-white py-24 md:py-32">
+    <section
+      id="features"
+      className="border-t border-white/10 bg-[var(--surface-deep)] py-24 md:py-32"
+    >
       <div className="mx-auto max-w-6xl px-6 md:px-8">
         <div className="mb-16 max-w-2xl">
-          <p className="mb-4 text-xs font-medium uppercase tracking-widest text-[var(--dark-grey-text)]">
-            Capabilities
-          </p>
-          <h2 className="font-serif text-3xl font-medium text-black md:text-4xl">
+          <span className="pill-badge mb-4">Capabilities</span>
+          <h2 className="text-3xl font-semibold tracking-tight text-white md:text-4xl">
             Everything your team needs to move forward
           </h2>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-3">
           {features.map((feature) => (
             <article
               key={feature.title}
-              className="card-minimal zoom-hover flex flex-col gap-6 p-8"
+              className="glass-card flex flex-col gap-6 p-8"
             >
-              <feature.icon className="h-6 w-6 text-black" />
-              <h3 className="font-serif text-xl font-medium text-black">
+              <feature.icon className="h-6 w-6 text-white" />
+              <h3 className="text-xl font-semibold text-white">
                 {feature.title}
               </h3>
-              <p className="text-sm leading-relaxed text-[var(--dark-grey-text)]">
+              <p className="text-sm leading-relaxed text-[var(--text-secondary)]">
                 {feature.description}
               </p>
             </article>

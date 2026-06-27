@@ -50,46 +50,45 @@ const tiers = [
 
 export function Pricing() {
   return (
-    <section id="pricing" className="border-t border-[var(--light-grey-border)] bg-white py-24 md:py-32">
+    <section
+      id="pricing"
+      className="border-t border-white/10 bg-[var(--surface-deep)] py-24 md:py-32"
+    >
       <div className="mx-auto max-w-6xl px-6 md:px-8">
         <div className="mb-16 max-w-2xl">
-          <p className="mb-4 text-xs font-medium uppercase tracking-widest text-[var(--dark-grey-text)]">
-            Pricing
-          </p>
-          <h2 className="font-serif text-3xl font-medium text-black md:text-4xl">
+          <span className="pill-badge mb-4">Pricing</span>
+          <h2 className="text-3xl font-semibold tracking-tight text-white md:text-4xl">
             Simple plans for every stage
           </h2>
         </div>
 
-        <div className="grid gap-8 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-3">
           {tiers.map((tier) => (
             <article
               key={tier.name}
-              className={`card-minimal relative flex flex-col gap-6 p-8 ${
-                tier.highlighted
-                  ? "border-2 border-[var(--navy-accent)] shadow-none"
-                  : ""
+              className={`glass-card relative flex flex-col gap-6 p-8 ${
+                tier.highlighted ? "border-white/30 ring-1 ring-white/20" : ""
               }`}
             >
               {tier.highlighted && (
-                <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[var(--navy-accent)] px-4 py-1 text-xs uppercase tracking-widest text-white">
+                <span className="pill-badge absolute -top-3 left-1/2 -translate-x-1/2 bg-white text-black">
                   Most Popular
                 </span>
               )}
               <div>
-                <h3 className="font-serif text-xl font-medium text-black">
+                <h3 className="text-xl font-semibold text-white">
                   {tier.name}
                 </h3>
-                <p className="mt-2 text-sm text-[var(--dark-grey-text)]">
+                <p className="mt-2 text-sm text-[var(--text-secondary)]">
                   {tier.description}
                 </p>
               </div>
               <div className="flex items-baseline gap-1">
-                <span className="font-serif text-4xl font-medium text-black">
+                <span className="text-4xl font-bold text-white">
                   {tier.price}
                 </span>
                 {tier.period && (
-                  <span className="text-sm text-[var(--dark-grey-text)]">
+                  <span className="text-sm text-[var(--text-secondary)]">
                     {tier.period}
                   </span>
                 )}
@@ -98,20 +97,20 @@ export function Pricing() {
                 {tier.features.map((feature) => (
                   <li
                     key={feature}
-                    className="flex items-start gap-3 text-sm text-[var(--dark-grey-text)]"
+                    className="flex items-start gap-3 text-sm text-[var(--text-muted)]"
                   >
-                    <IconCheck className="mt-0.5 shrink-0 text-[var(--green-accent)]" />
+                    <IconCheck className="mt-0.5 shrink-0 text-white" />
                     {feature}
                   </li>
                 ))}
               </ul>
               <Link
                 href="/login"
-                className={`inline-flex justify-center px-6 py-3 text-sm tracking-wide transition-all cursor-pointer ${
+                className={
                   tier.highlighted
-                    ? "border border-black bg-black text-white hover:bg-white hover:text-black"
-                    : "border border-black bg-white text-black hover:bg-black hover:text-white"
-                }`}
+                    ? "pill-cta justify-center text-center"
+                    : "pill-cta-outline justify-center text-center"
+                }
               >
                 {tier.cta}
               </Link>
