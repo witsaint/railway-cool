@@ -6,7 +6,7 @@ import type { NextRequest } from "next/server";
  * are different sites, so visiting via 127.0.0.1 while BETTER_AUTH_URL is
  * localhost causes state_mismatch on the GitHub callback.
  */
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   if (process.env.NODE_ENV !== "development") {
     return NextResponse.next();
   }
