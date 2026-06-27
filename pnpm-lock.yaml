@@ -26,6 +26,9 @@ importers:
       '@heroui/styles':
         specifier: ^3.0.0
         version: 3.2.1(tailwind-merge@3.4.0)(tailwindcss@4.3.1)
+      '@phosphor-icons/react':
+        specifier: ^2.1.10
+        version: 2.1.10(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@repo/db':
         specifier: workspace:*
         version: link:../../packages/db
@@ -38,6 +41,9 @@ importers:
       better-auth:
         specifier: ^1.2.9
         version: 1.6.20(@prisma/client@6.19.3(prisma@6.19.3(typescript@5.9.3))(typescript@5.9.3))(next@16.2.9(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(prisma@6.19.3(typescript@5.9.3))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      gsap:
+        specifier: ^3.15.0
+        version: 3.15.0
       next:
         specifier: ^16.0.0
         version: 16.2.9(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
@@ -670,6 +676,13 @@ packages:
     resolution: {integrity: sha512-/UhIkaZgPutTFmQ7RnIJGgDXZmtEJ7Dvi86xNTFWcnRxVRNk/aotsqDJYeEvDP+FSMB2SdW+pQzNMcWP0rwuNA==}
     engines: {node: '>=14'}
 
+  '@phosphor-icons/react@2.1.10':
+    resolution: {integrity: sha512-vt8Tvq8GLjheAZZYa+YG/pW7HDbov8El/MANW8pOAz4eGxrwhnbfrQZq0Cp4q8zBEu8NIhHdnr+r8thnfRSNYA==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>= 16.8'
+      react-dom: '>= 16.8'
+
   '@prisma/client@6.19.3':
     resolution: {integrity: sha512-mKq3jQFhjvko5LTJFHGilsuQs+W+T3Gm451NzuTDGQxwCzwXHYnIu2zGkRoW+Exq3Rob7yp2MfzSrdIiZVhrBg==}
     engines: {node: '>=18.18'}
@@ -1173,6 +1186,9 @@ packages:
 
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
+
+  gsap@3.15.0:
+    resolution: {integrity: sha512-dMW4CWBTUK1AEEDeZc1g4xpPGIrSf9fJF960qbTZmN/QwZIWY5wgliS6JWl9/25fpTGJrMRtSjGtOmPnfjZB+A==}
 
   input-otp@1.4.2:
     resolution: {integrity: sha512-l3jWwYNvrEa6NTCt7BECfCm48GvwuZzkoeG3gBL2w4CHeOXW3eKFmf9UNYkNfYc3mxMrthMnxjIE07MT0zLBQA==}
@@ -1896,6 +1912,11 @@ snapshots:
 
   '@opentelemetry/semantic-conventions@1.41.1': {}
 
+  '@phosphor-icons/react@2.1.10(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+    dependencies:
+      react: 19.2.7
+      react-dom: 19.2.7(react@19.2.7)
+
   '@prisma/client@6.19.3(prisma@6.19.3(typescript@5.9.3))(typescript@5.9.3)':
     optionalDependencies:
       prisma: 6.19.3(typescript@5.9.3)
@@ -2353,6 +2374,8 @@ snapshots:
       pathe: 2.0.3
 
   graceful-fs@4.2.11: {}
+
+  gsap@3.15.0: {}
 
   input-otp@1.4.2(react-dom@19.2.7(react@19.2.7))(react@19.2.7):
     dependencies:

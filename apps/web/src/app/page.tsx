@@ -1,9 +1,9 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import { LandingPage } from "@/components/landing/landing-page";
+import { HomePage } from "@/components/home/home-page";
 
-export default async function HomePage() {
+export default async function Page() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -12,5 +12,5 @@ export default async function HomePage() {
     redirect("/dashboard");
   }
 
-  return <LandingPage />;
+  return <HomePage />;
 }

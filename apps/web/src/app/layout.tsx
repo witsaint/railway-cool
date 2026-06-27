@@ -1,54 +1,24 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const outfit = Outfit({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-inter",
+  variable: "--font-outfit",
   display: "swap",
 });
 
 export const metadata: Metadata = {
   title: {
-    default: "Railway — R&D & Product Platform",
+    default: "Railway Monorepo · 研发与产品统一平台",
     template: "%s | Railway",
   },
   description:
-    "A unified monorepo platform for research and product teams. Deploy services, manage auth, and iterate fast on Railway.",
-  keywords: [
-    "monorepo",
-    "Railway",
-    "Next.js",
-    "R&D platform",
-    "product development",
-    "Better Auth",
-    "Prisma",
-    "fintech",
-  ],
-  authors: [{ name: "Railway Platform" }],
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    siteName: "Railway Platform",
-    title: "Railway — R&D & Product Platform",
-    description:
-      "Build with clarity. Ship with confidence. A unified monorepo platform for research and product teams.",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Railway — R&D & Product Platform",
-    description:
-      "Build with clarity. Ship with confidence. A unified monorepo platform for research and product teams.",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
+    "为研发与产品团队打造的 Monorepo 内部工具平台，基于 Next.js、HeroUI 与 Railway 一体化交付。",
 };
 
 export const viewport: Viewport = {
-  themeColor: "#000000",
+  themeColor: "#030712",
 };
 
 export default function RootLayout({
@@ -57,10 +27,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className="min-h-screen bg-black text-white antialiased">
-        {children}
-      </body>
+    <html lang="zh-CN" className={`dark ${outfit.variable}`}>
+      <body className="min-h-screen font-sans antialiased">{children}</body>
     </html>
   );
 }
