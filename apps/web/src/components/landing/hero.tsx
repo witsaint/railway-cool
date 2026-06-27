@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "@phosphor-icons/react";
+import { HeroAuroraBackground } from "./effects/aurora";
 import { Reveal } from "./reveal";
 
 export function Hero() {
@@ -10,10 +11,16 @@ export function Hero() {
     <section className="relative min-h-[100dvh] overflow-hidden pt-20 lg:pt-24">
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_70%_20%,rgba(34,211,238,0.12),transparent_55%)]"
+        className="pointer-events-none absolute inset-0 opacity-70 mix-blend-screen"
+      >
+        <HeroAuroraBackground className="h-full w-full" />
+      </div>
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-gradient-to-b from-zinc-950/20 via-transparent to-zinc-950"
       />
 
-      <div className="relative mx-auto grid max-w-7xl gap-10 px-4 pb-16 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-12 lg:px-8 lg:pb-20">
+      <div className="relative z-10 mx-auto grid max-w-7xl gap-10 px-4 pb-16 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-12 lg:px-8 lg:pb-20">
         <Reveal className="max-w-xl">
           <p className="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-cyan-300/90">
             R&amp;D platform
