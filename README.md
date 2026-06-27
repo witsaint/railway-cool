@@ -261,11 +261,14 @@ https://your-domain.com
 
 ### 六、GitHub OAuth 生产回调
 
+使用上文 **「生产 App」**（与本地开发 App 分开）。若本地登录报 `redirect_uri is not associated`，见 **「十二、故障排查」**。
+
 1. 打开 [GitHub Developer Settings → OAuth Apps](https://github.com/settings/developers)
-2. 编辑你的 OAuth App：
+2. 编辑 **生产** OAuth App（非 `railway-dev` 本地 App）：
    - **Homepage URL**：`https://web-production-xxxx.up.railway.app`（你的 Web 域名）
    - **Authorization callback URL**：`https://web-production-xxxx.up.railway.app/api/auth/callback/github`
-3. 保存后无需改代码，重启 Web 服务即可
+3. 将 Client ID / Secret 写入 Railway Web 服务 Variables（不要写入 `.env.local`）
+4. 保存后无需改代码，**Redeploy** Web 服务即可
 
 ### 七、数据库迁移
 
@@ -351,6 +354,48 @@ Error: P1001: Can't reach database server at `localhost:5432`
    `preDeployCommand` 在 **Deploy** 阶段运行，可访问该服务的 Variables（含 Reference）。设置好 `DATABASE_URL` 后 **Redeploy** 即可。
 
 本地开发使用根目录 **`.env.local`**（`cp .env.local.example .env.local`）；`apps/web` 通过 `next.config.ts` 从 monorepo 根加载，`packages/db` 与 Worker 通过 `scripts/load-local-env.mjs` 加载。若仍保留 `.env`，`.env.local` 会覆盖同名变量。**不要提交** `.env` / `.env.local`。
+
+### 十二、故障排查：redirect_uri is not associated
+
+GitHub 登录页或回调时出现：
+
+```text
+The redirect_uri is not associated with this application.
+```
+
+**原因**：Better Auth 根据 `BETTER_AUTH_URL` 生成回调地址，本地固定为：
+
+```text
+http://localhost:3000/api/auth/callback/github
+```
+
+但当前 `.env.local` 中的 `GITHUB_CLIENT_ID` 对应的 OAuth App，其 **Authorization callback URL** 很可能只配置了生产域名（例如 `https://web-production-xxxx.up.railway.app/api/auth/callback/github`）。GitHub OAuth App **只允许一个** callback URL，无法在同一 App 上同时填 localhost 与生产 URL。
+
+**核对当前 Client ID**：在 [GitHub OAuth Apps](https://github.com/settings/developers) 中搜索 `.env.local` 里的 `GITHUB_CLIENT_ID`，查看该 App 的 callback URL 是否与上式一致。
+
+**推荐修复（双 App）**：
+
+1. 保留现有生产 OAuth App（callback = `https://<your-railway-domain>/api/auth/callback/github`），凭证仅放在 Railway Variables。
+2. 新建 **本地开发** OAuth App：
+   - **Application name**：例如 `railway-dev`
+   - **Homepage URL**：`http://localhost:3000`
+   - **Authorization callback URL**：`http://localhost:3000/api/auth/callback/github`
+3. 将新 App 的 Client ID / Secret 写入根目录 **`.env.local`** 的 `GITHUB_CLIENT_ID` / `GITHUB_CLIENT_SECRET`。
+4. 确认 `BETTER_AUTH_URL` 与 `NEXT_PUBLIC_BETTER_AUTH_URL` 均为 `http://localhost:3000`（无尾部斜杠）。
+5. 重启 `pnpm dev`，再次登录。
+
+**自测 redirect_uri**（需本地 Web 已启动）：
+
+```bash
+curl -s -X POST http://localhost:3000/api/auth/sign-in/social \
+  -H "Content-Type: application/json" \
+  -d '{"provider":"github","callbackURL":"/"}' \
+  | jq -r '.url' | sed -n 's/.*redirect_uri=\([^&]*\).*/\1/p' | python3 -c "import sys,urllib.parse; print(urllib.parse.unquote(sys.stdin.read()))"
+```
+
+输出应为 `http://localhost:3000/api/auth/callback/github`。
+
+**不推荐**：把生产 App 的 callback 临时改成 localhost——会导致线上 GitHub 登录失败。
 
 ## 技术栈
 
