@@ -397,6 +397,23 @@ curl -s -X POST http://localhost:3000/api/auth/sign-in/social \
 
 **不推荐**：把生产 App 的 callback 临时改成 localhost——会导致线上 GitHub 登录失败。
 
+### 十三、故障排查：state_mismatch（GitHub 登录回调）
+
+回调页或错误页出现 `CODE: state_mismatch` 时，通常是 **OAuth state cookie 与回调请求不在同一 host**。
+
+**常见原因**：
+
+1. 浏览器地址栏使用 `http://127.0.0.1:3000`，而 `BETTER_AUTH_URL` 为 `http://localhost:3000`（二者 cookie 不共享）。
+2. 旧的 Better Auth cookie 与当前 `BETTER_AUTH_SECRET` 不一致。
+3. 登录流程超过约 10 分钟，state 已过期。
+
+**修复步骤**：
+
+1. **始终使用 `http://localhost:3000` 访问**（不要用 `127.0.0.1`）。开发环境 middleware 会自动将 `127.0.0.1` 重定向到 `localhost`。
+2. 确认 `BETTER_AUTH_URL` 与 `NEXT_PUBLIC_BETTER_AUTH_URL` 完全一致（均为 `http://localhost:3000`，无尾部斜杠）。
+3. 清除站点 cookie：DevTools → Application → Cookies → 删除 `localhost:3000` 下所有 `better-auth.*` cookie，或使用无痕窗口重试。
+4. 重启 `pnpm dev` 后重新登录。
+
 ## 技术栈
 
 - **Web**：Next.js 16、HeroUI 3、Tailwind CSS 4、Better Auth
