@@ -1,122 +1,132 @@
+"use client";
+
 import Link from "next/link";
-import { IconCheck } from "./icons";
+import { Check } from "@phosphor-icons/react";
+import { Reveal, RevealItem, RevealStagger } from "./reveal";
 
 const tiers = [
   {
     name: "Starter",
     price: "Free",
     period: "",
-    description: "For individual developers exploring the platform.",
+    description: "For solo builders exploring the stack.",
     features: [
-      "1 Web service",
-      "GitHub OAuth auth",
+      "One web service",
+      "GitHub OAuth",
       "Community support",
-      "Basic health monitoring",
+      "Health checks",
     ],
     highlighted: false,
-    cta: "Get Started",
+    cta: "Use Starter",
   },
   {
     name: "Team",
     price: "$49",
     period: "/month",
-    description: "For growing R&D and product teams.",
+    description: "For R&D and product squads shipping weekly.",
     features: [
-      "Web + Worker services",
+      "Web and worker services",
       "Shared monorepo packages",
       "PostgreSQL on Railway",
       "Priority support",
       "Custom domains",
     ],
     highlighted: true,
-    cta: "Start Free Trial",
+    cta: "Choose Team",
   },
   {
     name: "Enterprise",
     price: "Custom",
     period: "",
-    description: "For organizations with advanced requirements.",
+    description: "For orgs with compliance and scale needs.",
     features: [
       "Unlimited services",
       "Dedicated infrastructure",
-      "SSO & audit logs",
-      "SLA guarantee",
-      "Onboarding assistance",
+      "SSO and audit logs",
+      "SLA coverage",
+      "Onboarding help",
     ],
     highlighted: false,
-    cta: "Contact Sales",
+    cta: "Contact sales",
   },
 ];
 
 export function Pricing() {
   return (
-    <section
-      id="pricing"
-      className="border-t border-white/10 bg-[var(--surface-deep)] py-24 md:py-32"
-    >
-      <div className="mx-auto max-w-6xl px-6 md:px-8">
-        <div className="mb-16 max-w-2xl">
-          <span className="pill-badge mb-4">Pricing</span>
-          <h2 className="text-3xl font-semibold tracking-tight text-white md:text-4xl">
-            Simple plans for every stage
+    <section id="pricing" className="py-20 lg:py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <Reveal className="mx-auto max-w-2xl text-center">
+          <h2 className="text-3xl font-semibold tracking-tight text-zinc-50 md:text-4xl">
+            Plans that match how you grow
           </h2>
-        </div>
+          <p className="mt-4 text-base text-zinc-400">
+            Start free, add worker services when your team is ready, and scale
+            with enterprise controls later.
+          </p>
+        </Reveal>
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <RevealStagger className="mt-12 grid gap-4 lg:grid-cols-3">
           {tiers.map((tier) => (
-            <article
+            <RevealItem
               key={tier.name}
-              className={`glass-card relative flex flex-col gap-6 p-8 ${
-                tier.highlighted ? "border-white/30 ring-1 ring-white/20" : ""
+              className={`relative flex flex-col rounded-2xl border p-8 ${
+                tier.highlighted
+                  ? "border-cyan-400/40 bg-zinc-900/80 shadow-[0_0_0_1px_rgba(34,211,238,0.15),inset_0_1px_0_rgba(255,255,255,0.08)]"
+                  : "glass-panel"
               }`}
             >
-              {tier.highlighted && (
-                <span className="pill-badge absolute -top-3 left-1/2 -translate-x-1/2 bg-white text-black">
-                  Most Popular
+              {tier.highlighted ? (
+                <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-cyan-400 px-3 py-1 text-xs font-medium text-zinc-950">
+                  Most popular
                 </span>
-              )}
+              ) : null}
+
               <div>
-                <h3 className="text-xl font-semibold text-white">
+                <h3 className="text-lg font-semibold text-zinc-50">
                   {tier.name}
                 </h3>
-                <p className="mt-2 text-sm text-[var(--text-secondary)]">
-                  {tier.description}
-                </p>
+                <p className="mt-2 text-sm text-zinc-500">{tier.description}</p>
               </div>
-              <div className="flex items-baseline gap-1">
-                <span className="text-4xl font-bold text-white">
+
+              <div className="mt-6 flex items-baseline gap-1">
+                <span className="text-4xl font-semibold tracking-tight text-zinc-50">
                   {tier.price}
                 </span>
-                {tier.period && (
-                  <span className="text-sm text-[var(--text-secondary)]">
-                    {tier.period}
-                  </span>
-                )}
+                {tier.period ? (
+                  <span className="text-sm text-zinc-500">{tier.period}</span>
+                ) : null}
               </div>
-              <ul className="flex flex-1 flex-col gap-3">
+
+              <ul className="mt-8 flex flex-1 flex-col gap-3">
                 {tier.features.map((feature) => (
                   <li
                     key={feature}
-                    className="flex items-start gap-3 text-sm text-[var(--text-muted)]"
+                    className="flex items-start gap-2.5 text-sm text-zinc-300"
                   >
-                    <IconCheck className="mt-0.5 shrink-0 text-white" />
+                    <Check
+                      size={16}
+                      weight="bold"
+                      className="mt-0.5 shrink-0 text-cyan-300"
+                      aria-hidden
+                    />
                     {feature}
                   </li>
                 ))}
               </ul>
+
               <Link
                 href="/login"
-                className={
+                className={`mt-8 inline-flex h-11 items-center justify-center rounded-xl text-sm font-medium transition-transform active:scale-[0.98] ${
                   tier.highlighted
-                    ? "pill-cta justify-center text-center"
-                    : "pill-cta-outline justify-center text-center"
-                }
+                    ? "bg-cyan-400 text-zinc-950 hover:bg-cyan-300"
+                    : "border border-white/10 bg-white/5 text-zinc-100 hover:border-white/20 hover:bg-white/10"
+                }`}
               >
                 {tier.cta}
               </Link>
-            </article>
+            </RevealItem>
           ))}
-        </div>
+        </RevealStagger>
       </div>
     </section>
   );

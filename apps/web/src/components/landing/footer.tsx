@@ -1,70 +1,67 @@
 import Link from "next/link";
-import { IconGitHub, IconLinkedIn, IconTwitter } from "./icons";
+import { GithubLogo, LinkedinLogo, XLogo } from "@phosphor-icons/react/dist/ssr";
 
 const productLinks = [
   { href: "#features", label: "Features" },
   { href: "#pricing", label: "Pricing" },
-  { href: "/login", label: "Sign In" },
-  { href: "/dashboard", label: "Dashboard" },
+  { href: "/login", label: "Sign in" },
 ];
 
 const legalLinks = [
-  { href: "/privacy", label: "Privacy Policy" },
-  { href: "/terms", label: "Terms of Service" },
+  { href: "/privacy", label: "Privacy" },
+  { href: "/terms", label: "Terms" },
   { href: "mailto:contact@railway.dev", label: "Contact" },
 ];
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-[var(--bg-primary)]">
-      <div className="mx-auto max-w-6xl px-6 py-16 md:px-8">
-        <div className="grid gap-12 md:grid-cols-4">
-          <div>
+    <footer className="border-t border-white/5 pb-10 pt-14">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+          <div className="lg:col-span-2">
             <Link
               href="/"
-              className="text-xl font-semibold text-white transition-all cursor-pointer"
+              className="text-lg font-semibold tracking-tight text-zinc-50"
             >
               Railway
             </Link>
-            <p className="mt-4 text-sm leading-relaxed text-[var(--text-secondary)]">
-              Unified platform for R&D and product teams to build, deploy, and
-              iterate at scale.
+            <p className="mt-4 max-w-sm text-sm leading-relaxed text-zinc-500">
+              Internal monorepo platform for R&amp;D and product teams to build,
+              deploy, and iterate together.
             </p>
-            <div className="mt-6 flex gap-4">
+            <div className="mt-6 flex gap-3">
               <a
                 href="https://github.com/witsaint/railway-cool"
                 aria-label="GitHub"
-                className="text-[var(--text-secondary)] transition-all cursor-pointer hover:text-white"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 text-zinc-400 transition-colors hover:border-white/20 hover:text-zinc-100"
               >
-                <IconGitHub />
+                <GithubLogo size={18} weight="fill" aria-hidden />
               </a>
               <a
                 href="https://twitter.com"
-                aria-label="Twitter"
-                className="text-[var(--text-secondary)] transition-all cursor-pointer hover:text-white"
+                aria-label="X"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 text-zinc-400 transition-colors hover:border-white/20 hover:text-zinc-100"
               >
-                <IconTwitter />
+                <XLogo size={18} weight="fill" aria-hidden />
               </a>
               <a
                 href="https://linkedin.com"
                 aria-label="LinkedIn"
-                className="text-[var(--text-secondary)] transition-all cursor-pointer hover:text-white"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 text-zinc-400 transition-colors hover:border-white/20 hover:text-zinc-100"
               >
-                <IconLinkedIn />
+                <LinkedinLogo size={18} weight="fill" aria-hidden />
               </a>
             </div>
           </div>
 
           <div>
-            <h3 className="text-xs font-medium uppercase tracking-wider text-white">
-              Product
-            </h3>
-            <ul className="mt-4 flex flex-col gap-3">
+            <h3 className="text-sm font-medium text-zinc-200">Product</h3>
+            <ul className="mt-4 space-y-3">
               {productLinks.map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-sm text-[var(--text-secondary)] transition-all cursor-pointer hover:text-white"
+                    className="text-sm text-zinc-500 transition-colors hover:text-zinc-200"
                   >
                     {link.label}
                   </Link>
@@ -74,15 +71,13 @@ export function Footer() {
           </div>
 
           <div>
-            <h3 className="text-xs font-medium uppercase tracking-wider text-white">
-              Legal
-            </h3>
-            <ul className="mt-4 flex flex-col gap-3">
+            <h3 className="text-sm font-medium text-zinc-200">Legal</h3>
+            <ul className="mt-4 space-y-3">
               {legalLinks.map((link) => (
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-sm text-[var(--text-secondary)] transition-all cursor-pointer hover:text-white"
+                    className="text-sm text-zinc-500 transition-colors hover:text-zinc-200"
                   >
                     {link.label}
                   </Link>
@@ -90,45 +85,11 @@ export function Footer() {
               ))}
             </ul>
           </div>
-
-          <div>
-            <h3 className="text-xs font-medium uppercase tracking-wider text-white">
-              Connect
-            </h3>
-            <ul className="mt-4 flex flex-col gap-3">
-              <li>
-                <a
-                  href="mailto:contact@railway.dev"
-                  className="text-sm text-[var(--text-secondary)] transition-all cursor-pointer hover:text-white"
-                >
-                  Contact
-                </a>
-              </li>
-              <li>
-                <Link
-                  href="/privacy"
-                  className="text-sm text-[var(--text-secondary)] transition-all cursor-pointer hover:text-white"
-                >
-                  Privacy
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/terms"
-                  className="text-sm text-[var(--text-secondary)] transition-all cursor-pointer hover:text-white"
-                >
-                  Terms
-                </Link>
-              </li>
-            </ul>
-          </div>
         </div>
 
-        <div className="mt-16 border-t border-white/10 pt-8">
-          <p className="text-sm text-[var(--text-secondary)]">
-            &copy; 2026 Railway Platform. All rights reserved.
-          </p>
-        </div>
+        <p className="mt-12 border-t border-white/5 pt-8 text-sm text-zinc-600">
+          &copy; 2026 Railway Platform. All rights reserved.
+        </p>
       </div>
     </footer>
   );

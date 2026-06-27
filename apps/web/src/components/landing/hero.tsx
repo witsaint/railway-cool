@@ -1,67 +1,68 @@
-import Link from "next/link";
-import { HeroVideoBackground } from "./hero-video-background";
-import {
-  IconBarChart,
-  IconLock,
-  IconRocket,
-  IconZap,
-} from "./icons";
+"use client";
 
-const heroFeatures = [
-  { icon: IconZap, label: "Instant Deploy" },
-  { icon: IconLock, label: "Secure Auth" },
-  { icon: IconBarChart, label: "Real-time Metrics" },
-  { icon: IconRocket, label: "Scale Fast" },
-];
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "@phosphor-icons/react";
+import { Reveal } from "./reveal";
 
 export function Hero() {
   return (
-    <section className="relative flex min-h-screen flex-col justify-center overflow-hidden">
-      <HeroVideoBackground />
-      <div className="hero-overlay" aria-hidden="true" />
+    <section className="relative min-h-[100dvh] overflow-hidden pt-20 lg:pt-24">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_70%_20%,rgba(34,211,238,0.12),transparent_55%)]"
+      />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-1 flex-col justify-center px-6 pb-48 pt-32 md:px-8 md:pb-56">
-        <span className="pill-badge mb-8 w-fit">Premium Platform</span>
+      <div className="relative mx-auto grid max-w-7xl gap-10 px-4 pb-16 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-12 lg:px-8 lg:pb-20">
+        <Reveal className="max-w-xl">
+          <p className="mb-4 text-xs font-medium uppercase tracking-[0.18em] text-cyan-300/90">
+            R&amp;D platform
+          </p>
 
-        <h1 className="max-w-4xl text-4xl font-bold leading-[1.05] tracking-tight text-white md:text-6xl lg:text-7xl">
-          Build wealth in
-          <br />
-          infrastructure.
-        </h1>
+          <h1 className="text-4xl font-semibold tracking-tight text-zinc-50 md:text-5xl lg:text-6xl lg:leading-[1.05]">
+            One monorepo for teams that ship
+          </h1>
 
-        <p className="mt-6 max-w-xl text-lg leading-relaxed text-[var(--text-muted)]">
-          A unified monorepo platform for research and product teams — deploy
-          services, manage auth, and iterate fast on Railway.
-        </p>
+          <p className="mt-5 max-w-md text-base leading-relaxed text-zinc-400 md:text-lg">
+            Deploy web and worker services, shared packages, and auth from a
+            single codebase built for product and research teams.
+          </p>
 
-        <div className="mt-10 flex flex-wrap gap-4">
-          <Link href="/login" className="pill-cta">
-            Get Started
-          </Link>
-          <a href="#features" className="pill-cta-outline">
-            Explore Features
-          </a>
-        </div>
-      </div>
-
-      <div className="absolute bottom-8 left-0 right-0 z-10 mx-auto max-w-6xl px-6 md:px-8">
-        <div className="glass-card p-6 md:p-8">
-          <div className="grid grid-cols-2 gap-6 lg:grid-cols-4">
-            {heroFeatures.map((item) => (
-              <div
-                key={item.label}
-                className="flex flex-col items-center gap-3 text-center sm:flex-row sm:text-left"
-              >
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5">
-                  <item.icon className="h-5 w-5 text-white" />
-                </div>
-                <span className="text-sm font-medium text-white">
-                  {item.label}
-                </span>
-              </div>
-            ))}
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <Link
+              href="/login"
+              className="inline-flex h-11 items-center gap-2 rounded-xl bg-cyan-400 px-5 text-sm font-medium text-zinc-950 transition-transform active:scale-[0.98] hover:bg-cyan-300"
+            >
+              Sign in
+              <ArrowRight size={16} weight="bold" aria-hidden />
+            </Link>
+            <a
+              href="#features"
+              className="inline-flex h-11 items-center rounded-xl border border-white/10 bg-white/5 px-5 text-sm font-medium text-zinc-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] transition-colors hover:border-white/20 hover:bg-white/10"
+            >
+              View features
+            </a>
           </div>
-        </div>
+        </Reveal>
+
+        <Reveal className="relative lg:justify-self-end" delay={0.08}>
+          <div className="glass-panel relative overflow-hidden rounded-2xl p-1.5">
+            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[14px] sm:aspect-[5/4] lg:aspect-[4/5] lg:max-w-md lg:justify-self-end">
+              <Image
+                src="https://picsum.photos/seed/railway-platform-lab/900/1120"
+                alt="Developers collaborating in a modern workspace"
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 420px"
+                className="object-cover"
+              />
+              <div
+                aria-hidden
+                className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-zinc-950/10 to-transparent"
+              />
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   );

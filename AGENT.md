@@ -74,10 +74,10 @@ pnpm dev                           # 或 pnpm --filter @repo/web dev
 
 所有 **营销页 / Landing Page / 对外 UI** 必须遵循 [design.md](./design.md)：
 
-- 风格：**Wealth Video Hero**（深色 fintech、玻璃拟态、全屏视频背景）
-- 字体：Inter（现代 sans，无衬线）
-- 设计 token 定义在 `apps/web/src/app/globals.css`（`--bg-primary`、`--glass-bg`、`--blur` 等）
-- 首页为 **dark-only**；禁止浅色/Minimalismo 风格用于营销页；禁止 emoji 图标
+- 风格：**Dark Tech B2B Platform**（深色平台风、玻璃面板、cyan 强调色、Motion 滚动揭示）
+- 字体：**Outfit**（`next/font`，禁止 Inter 作为营销页默认字体）
+- 设计 token 定义在 `apps/web/src/app/globals.css`（`--color-surface`、`--color-accent`、`.glass-panel` 等）
+- 首页为 **dark-only**；禁止 Wealth Video Hero / 浅色 Minimalismo 用于营销页；禁止 emoji 图标
 
 内部页面（dashboard、login）可沿用 HeroUI 默认组件；新营销 UI 应匹配 design.md 的深色玻璃拟态风格。
 

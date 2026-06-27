@@ -11,6 +11,12 @@ loadEnvConfig(monorepoRoot);
 const nextConfig: NextConfig = {
   transpilePackages: ["@repo/ui", "@repo/shared", "@repo/db"],
   outputFileTracingRoot: monorepoRoot,
+  images: {
+    remotePatterns: [
+      { protocol: "https", hostname: "picsum.photos", pathname: "/**" },
+      { protocol: "https", hostname: "cdn.simpleicons.org", pathname: "/**" },
+    ],
+  },
   env: {
     NEXT_PUBLIC_BETTER_AUTH_URL:
       process.env.NEXT_PUBLIC_BETTER_AUTH_URL ?? process.env.BETTER_AUTH_URL,
