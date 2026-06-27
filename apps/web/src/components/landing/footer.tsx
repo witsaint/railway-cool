@@ -2,8 +2,8 @@ import Link from "next/link";
 import { GithubLogo, LinkedinLogo, XLogo } from "@phosphor-icons/react/dist/ssr";
 
 const productLinks = [
-  { href: "#features", label: "Features" },
-  { href: "#pricing", label: "Pricing" },
+  { href: "#features", label: "功能" },
+  { href: "#pricing", label: "方案" },
   { href: "/login", label: "Sign in" },
 ];
 
@@ -26,8 +26,7 @@ export function Footer() {
               Railway
             </Link>
             <p className="mt-4 max-w-sm text-sm leading-relaxed text-zinc-500">
-              Internal monorepo platform for R&amp;D and product teams to build,
-              deploy, and iterate together.
+              个人 Agent 编排与本地 Sandbox 能力的 monorepo 平台，面向研发与产品团队，从本地开发到 Railway 生产部署。
             </p>
             <div className="mt-6 flex gap-3">
               <a

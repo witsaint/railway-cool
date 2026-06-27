@@ -6,48 +6,33 @@ import { Reveal, RevealItem, RevealStagger } from "./reveal";
 
 const tiers = [
   {
-    name: "Starter",
+    name: "个人版",
     price: "Free",
     period: "",
-    description: "For solo builders exploring the stack.",
+    description: "独立开发者探索 Agent 与 Sandbox 能力。",
     features: [
-      "One web service",
+      "单 Web 服务",
+      "本地 Sandbox 开发",
       "GitHub OAuth",
-      "Community support",
-      "Health checks",
+      "社区支持",
     ],
     highlighted: false,
-    cta: "Use Starter",
+    cta: "开始使用",
   },
   {
-    name: "Team",
-    price: "$49",
-    period: "/month",
-    description: "For R&D and product squads shipping weekly.",
+    name: "团队版",
+    price: "按需",
+    period: "",
+    description: "研发与产品小队每周迭代、共享 monorepo。",
     features: [
-      "Web and worker services",
-      "Shared monorepo packages",
-      "PostgreSQL on Railway",
-      "Priority support",
-      "Custom domains",
+      "Web + Worker 双服务",
+      "共享 packages/db",
+      "Railway PostgreSQL",
+      "Agent 编排层",
+      "自定义域名",
     ],
     highlighted: true,
-    cta: "Choose Team",
-  },
-  {
-    name: "Enterprise",
-    price: "Custom",
-    period: "",
-    description: "For orgs with compliance and scale needs.",
-    features: [
-      "Unlimited services",
-      "Dedicated infrastructure",
-      "SSO and audit logs",
-      "SLA coverage",
-      "Onboarding help",
-    ],
-    highlighted: false,
-    cta: "Contact sales",
+    cta: "选择团队版",
   },
 ];
 
@@ -57,15 +42,14 @@ export function Pricing() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Reveal className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-semibold tracking-tight text-zinc-50 md:text-4xl">
-            Plans that match how you grow
+            方案
           </h2>
           <p className="mt-4 text-base text-zinc-400">
-            Start free, add worker services when your team is ready, and scale
-            with enterprise controls later.
+            个人版免费起步，团队版按需扩展 Worker 与共享 packages。
           </p>
         </Reveal>
 
-        <RevealStagger className="mt-12 grid gap-4 lg:grid-cols-3">
+        <RevealStagger className="mx-auto mt-12 grid max-w-3xl gap-4 md:grid-cols-2">
           {tiers.map((tier) => (
             <RevealItem
               key={tier.name}
@@ -77,7 +61,7 @@ export function Pricing() {
             >
               {tier.highlighted ? (
                 <span className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-cyan-400 px-3 py-1 text-xs font-medium text-zinc-950">
-                  Most popular
+                  推荐
                 </span>
               ) : null}
 

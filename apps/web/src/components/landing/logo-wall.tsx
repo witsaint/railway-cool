@@ -5,22 +5,22 @@ import { RevealStagger, RevealItem } from "./reveal";
 
 const logos = [
   { name: "GitHub", slug: "github", href: "https://github.com" },
-  { name: "Vercel", slug: "vercel", href: "https://vercel.com" },
-  { name: "Stripe", slug: "stripe", href: "https://stripe.com" },
+  { name: "Railway", slug: "railway", href: "https://railway.app" },
+  { name: "Next.js", slug: "nextdotjs", href: "https://nextjs.org" },
+  { name: "Prisma", slug: "prisma", href: "https://prisma.io" },
   { name: "Docker", slug: "docker", href: "https://docker.com" },
   { name: "PostgreSQL", slug: "postgresql", href: "https://postgresql.org" },
-  { name: "Prisma", slug: "prisma", href: "https://prisma.io" },
 ];
 
 export function LogoWall() {
   return (
     <section
-      aria-label="Trusted by engineering teams"
+      aria-label="Built with modern dev tools"
       className="border-y border-white/5 py-12"
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <p className="mb-8 text-center text-sm text-zinc-500">
-          Used by teams building on modern stacks
+          基于现代开发工具链构建
         </p>
         <RevealStagger className="grid grid-cols-2 items-center gap-x-8 gap-y-6 sm:grid-cols-3 lg:grid-cols-6">
           {logos.map((logo) => (

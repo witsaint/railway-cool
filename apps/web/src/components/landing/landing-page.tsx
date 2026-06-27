@@ -2,7 +2,7 @@ import { Navbar } from "./navbar";
 import { Hero } from "./hero";
 import { LogoWall } from "./logo-wall";
 import { Features } from "./features";
-import { Testimonials } from "./testimonials";
+import { UseCases } from "./use-cases";
 import { Pricing } from "./pricing";
 import { CtaSection } from "./cta-section";
 import { Footer } from "./footer";
@@ -15,7 +15,7 @@ export function LandingPage() {
         <Hero />
         <LogoWall />
         <Features />
-        <Testimonials />
+        <UseCases />
         <Pricing />
         <CtaSection />
       </main>

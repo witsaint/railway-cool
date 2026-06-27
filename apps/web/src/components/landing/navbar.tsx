@@ -5,9 +5,9 @@ import { List, X } from "@phosphor-icons/react";
 import { useState } from "react";
 
 const navLinks = [
-  { href: "#features", label: "Features" },
-  { href: "#testimonials", label: "Testimonials" },
-  { href: "#pricing", label: "Pricing" },
+  { href: "#features", label: "功能" },
+  { href: "#use-cases", label: "场景" },
+  { href: "#pricing", label: "方案" },
 ];
 
 export function Navbar() {

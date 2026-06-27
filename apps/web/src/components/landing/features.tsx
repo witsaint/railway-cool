@@ -2,47 +2,47 @@
 
 import Image from "next/image";
 import {
-  GitBranch,
+  Cube,
+  GithubLogo,
   Package,
-  RocketLaunch,
-  ShieldCheck,
+  Robot,
 } from "@phosphor-icons/react";
 import { Reveal, RevealItem, RevealStagger } from "./reveal";
 
 const features = [
   {
-    title: "Monorepo pipelines",
+    title: "Agent 编排",
     description:
-      "Shared packages, Turborepo tasks, and typed boundaries keep R&D and product code aligned.",
-    icon: Package,
+      "Personal agent 工作流与任务调度，统一上下文与工具调用，研发与产品共用同一套编排层。",
+    icon: Robot,
     span: "lg:col-span-7 lg:row-span-2",
     visual: "image" as const,
-    imageSeed: "railway-monorepo-build",
+    imageSeed: "agent-orchestration-flow",
   },
   {
-    title: "Git-native deploys",
+    title: "本地 Sandbox",
     description:
-      "Push to main and roll out Web plus Worker services on Railway without manual release steps.",
-    icon: GitBranch,
+      "隔离式本地开发环境，Docker PostgreSQL + .env.local，Agent 与 Worker 在沙箱中安全试跑。",
+    icon: Cube,
     span: "lg:col-span-5",
     visual: "glass" as const,
   },
   {
-    title: "Secure sessions",
+    title: "Monorepo 部署",
     description:
-      "Better Auth with GitHub OAuth, Prisma-backed sessions, and scoped environment secrets.",
-    icon: ShieldCheck,
+      "Turborepo 任务链，Web 与 Worker 共享 packages/db，Railway 一键推送 main 分支上线。",
+    icon: Package,
     span: "lg:col-span-5",
     visual: "accent" as const,
   },
   {
-    title: "Worker-ready runtime",
+    title: "GitHub 登录",
     description:
-      "Background jobs and polling workers share the same packages, database, and deployment flow.",
-    icon: RocketLaunch,
+      "Better Auth + GitHub OAuth，Prisma 持久化 session，生产与本地 OAuth App 分离配置。",
+    icon: GithubLogo,
     span: "lg:col-span-12",
     visual: "strip" as const,
-    imageSeed: "railway-worker-runtime",
+    imageSeed: "github-auth-platform",
   },
 ];
 
@@ -52,11 +52,10 @@ export function Features() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <Reveal className="max-w-2xl">
           <h2 className="text-3xl font-semibold tracking-tight text-zinc-50 md:text-4xl">
-            Built for platform teams, not slide decks
+            为研发与产品团队而生
           </h2>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-zinc-400">
-            Everything you need to run an internal monorepo platform with
-            clear ownership between research and product.
+            个人 Agent 能力与本地 Sandbox 环境，打包进同一 monorepo 平台，从原型到生产路径清晰。
           </p>
         </Reveal>
 
@@ -71,7 +70,7 @@ export function Features() {
                   <div className="relative min-h-52 lg:min-h-full">
                     <Image
                       src={`https://picsum.photos/seed/${feature.imageSeed}/960/720`}
-                      alt="Engineers reviewing deployment pipelines"
+                      alt="Agent 编排工作流示意"
                       fill
                       sizes="(max-width: 1024px) 100vw, 480px"
                       className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
@@ -105,7 +104,7 @@ export function Features() {
                   <div className="relative aspect-[16/10] overflow-hidden rounded-xl border border-white/10">
                     <Image
                       src={`https://picsum.photos/seed/${feature.imageSeed}/640/400`}
-                      alt="Server racks in a data center"
+                      alt="GitHub OAuth 集成示意"
                       fill
                       sizes="280px"
                       className="object-cover"

@@ -15,11 +15,10 @@ export function CtaSection() {
           />
           <div className="relative">
             <h2 className="text-3xl font-semibold tracking-tight text-zinc-50 md:text-4xl">
-              Ready to unify your stack?
+              开始搭建你的 Agent 平台
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-base text-zinc-400">
-              Sign in with GitHub and deploy your first web and worker services
-              from the same monorepo today.
+              GitHub 登录，本地 Sandbox 开发，Railway 部署 Web 与 Worker 服务。
             </p>
             <Link
               href="/login"

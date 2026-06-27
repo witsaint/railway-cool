@@ -10,15 +10,15 @@
 
 ## Context
 
-This design language applies to the **Railway monorepo platform** — an internal R&D and Product development platform. The aesthetic is:
+This design language applies to the **Personal Agent + Local Sandbox Platform** (Railway monorepo): personal agent orchestration and isolated local sandbox environments for R&D and product builders. The aesthetic is:
 
 - **Dark-tech B2B** with zinc surfaces and a single cyan accent
-- **Asymmetric split hero** with real photography (not video fintech hero)
+- **Asymmetric split hero** with DotGrid background, subtle mesh, Spotlight Border on the visual panel, and real photography
 - **Glass panels** with backdrop blur, `border-white/10`, and inner highlight
 - **Motion scroll-reveal** via `motion/react` (`whileInView`), honoring `prefers-reduced-motion`
 - **Varied feature layouts** (bento grid, not three equal cards)
 
-Landing page UI copy is **English**. Internal app surfaces (dashboard, login) may use Chinese where appropriate.
+Landing page UI copy uses **Chinese headlines** with clean technical subtext (English stack terms where helpful). Internal app surfaces (dashboard, login) may use Chinese where appropriate.
 
 ---
 
@@ -102,8 +102,10 @@ Utility class `.glass-panel`:
 ### Hero
 
 - Asymmetric split: copy left, photo right
+- Background: **HeroDotGrid** (cyan accent) + subtle radial mesh overlay
+- Visual panel: **SpotlightBorder** + glass-wrapped `next/image`
 - Max 4 text elements: eyebrow, headline, subtext (≤20 words), CTAs
-- Primary CTA: **Sign in**; secondary: **View features** (anchor)
+- Primary CTA: **Sign in**; secondary: **查看功能** (anchor)
 - Real image via `next/image` + picsum seed or brand asset
 
 ### Logo wall
@@ -117,15 +119,15 @@ Utility class `.glass-panel`:
 - Phosphor icons (`@phosphor-icons/react`)
 - No three equal feature cards in a row
 
-### Testimonials
+### Use cases
 
-- Featured large quote + supporting stack (not 3 equal cards)
-- Real avatar photos (picsum seeds), quotes ≤3 lines
+- Three-card grid with image + icon per scenario (replaces testimonials)
+- Scenarios: R&D sandbox validation, product collaboration, Railway deploy
 
-### Pricing
+### Pricing (Plans)
 
-- Three tiers; middle tier highlighted with cyan border/badge
-- Tier CTAs differ by intent: Use Starter / Choose Team / Contact sales
+- Two tiers: 个人版 (solo) and 团队版 (team); team tier highlighted with cyan border/badge
+- Tier CTAs: 开始使用 / 选择团队版
 
 ### Final CTA
 
@@ -154,8 +156,8 @@ Landing page order:
 2. Hero  
 3. Logo wall  
 4. Features  
-5. Testimonials  
-6. Pricing  
+5. Use cases  
+6. Pricing (Plans)  
 7. Final CTA  
 8. Footer  
 
