@@ -10,12 +10,12 @@
     }
   },
   "scripts": {
-    "db:generate": "prisma generate",
-    "db:push": "prisma db push",
+    "db:generate": "node scripts/with-local-env.mjs generate",
+    "db:push": "node scripts/with-local-env.mjs db push",
     "db:push:deploy": "node scripts/deploy-prisma.mjs push",
-    "db:migrate": "prisma migrate dev",
+    "db:migrate": "node scripts/with-local-env.mjs migrate dev",
     "db:migrate:deploy": "node scripts/deploy-prisma.mjs migrate",
-    "db:studio": "prisma studio",
+    "db:studio": "node scripts/with-local-env.mjs studio",
     "build": "tsc"
   },
   "dependencies": {

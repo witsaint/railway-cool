@@ -28,13 +28,24 @@ railway/
 pnpm install
 ```
 
-### 2. 配置环境变量
+### 2. 配置环境变量（本地）
+
+本地开发使用根目录 **`.env.local`**（已 gitignore，不会提交）：
 
 ```bash
-cp .env.example .env
+cp .env.local.example .env.local
 ```
 
-编辑 `.env` 填入以下变量（详见下方清单）。
+编辑 `.env.local` 填入本地密钥与 `http://localhost:3000` 相关 URL。
+
+若你已有根目录 `.env`，可迁移本地变量：
+
+```bash
+cp .env .env.local
+# 按需编辑 .env.local；存在时 `.env.local` 会覆盖 `.env` 中的同名变量
+```
+
+**生产环境**（Railway）在 Web / Worker 服务的 **Variables** 中配置，不使用 `.env` / `.env.local` 文件。
 
 ### 3. 启动本地数据库
 
@@ -63,26 +74,50 @@ pnpm --filter @repo/worker dev
 
 ## 环境变量清单
 
+### 本地（`.env.local`）
+
 | 变量 | 必填 | 说明 |
 |------|------|------|
-| `DATABASE_URL` | 是 | PostgreSQL 连接字符串 |
+| `DATABASE_URL` | 是 | 本地 Docker Postgres 或 Railway 远程代理 URL |
 | `BETTER_AUTH_SECRET` | 是 | Better Auth 密钥（至少 32 字符随机字符串） |
-| `BETTER_AUTH_URL` | 是 | Web 应用公网 URL（本地：`http://localhost:3000`） |
-| `NEXT_PUBLIC_BETTER_AUTH_URL` | 是 | 客户端使用的 Auth URL（通常与 `BETTER_AUTH_URL` 相同） |
-| `GITHUB_CLIENT_ID` | 是 | GitHub OAuth App Client ID |
-| `GITHUB_CLIENT_SECRET` | 是 | GitHub OAuth App Client Secret |
+| `BETTER_AUTH_URL` | 是 | `http://localhost:3000`（无尾部斜杠） |
+| `NEXT_PUBLIC_BETTER_AUTH_URL` | 是 | 与 `BETTER_AUTH_URL` 相同 |
+| `GITHUB_CLIENT_ID` | 是 | **本地开发** GitHub OAuth App Client ID |
+| `GITHUB_CLIENT_SECRET` | 是 | **本地开发** GitHub OAuth App Client Secret |
 | `WORKER_POLL_INTERVAL_MS` | 否 | Worker 轮询间隔（毫秒，默认 5000） |
 
-## GitHub OAuth 配置
+### 生产（Railway Variables）
 
-1. 打开 [GitHub Developer Settings](https://github.com/settings/developers)
-2. 点击 **New OAuth App**
-3. 填写：
-   - **Application name**：任意名称
-   - **Homepage URL**：`http://localhost:3000`（生产环境改为 Railway 域名）
+| 变量 | 服务 | 说明 |
+|------|------|------|
+| `DATABASE_URL` | Web、Worker | 引用 Postgres：`${{Postgres.DATABASE_URL}}` |
+| `BETTER_AUTH_SECRET` | Web | 生产用随机密钥（与本地可不同） |
+| `BETTER_AUTH_URL` | Web | `https://<your-railway-domain>` |
+| `NEXT_PUBLIC_BETTER_AUTH_URL` | Web | 与 `BETTER_AUTH_URL` 相同 |
+| `GITHUB_CLIENT_ID` | Web | **生产** GitHub OAuth App Client ID |
+| `GITHUB_CLIENT_SECRET` | Web | **生产** GitHub OAuth App Client Secret |
+| `WORKER_POLL_INTERVAL_MS` | Worker | 可选，默认 `5000` |
+
+## GitHub OAuth 配置（双 App：本地 + 生产）
+
+建议创建 **两个** GitHub OAuth App，避免本地与生产共用回调 URL：
+
+### 本地开发 App（凭证写入 `.env.local`）
+
+1. 打开 [GitHub Developer Settings](https://github.com/settings/developers) → **New OAuth App**
+2. 填写：
+   - **Application name**：例如 `railway-dev`
+   - **Homepage URL**：`http://localhost:3000`
    - **Authorization callback URL**：`http://localhost:3000/api/auth/callback/github`
-4. 创建后将 **Client ID** 和 **Client Secret** 写入 `.env`
-5. 部署到 Railway 后，将 callback URL 更新为 `https://<your-domain>/api/auth/callback/github`
+3. 将 **Client ID** 和 **Client Secret** 写入根目录 `.env.local`
+
+### 生产 App（凭证写入 Railway Variables）
+
+1. 再创建一个 OAuth App（或编辑现有生产 App）
+2. 填写：
+   - **Homepage URL**：`https://<your-railway-domain>`
+   - **Authorization callback URL**：`https://<your-railway-domain>/api/auth/callback/github`
+3. 将 **Client ID** 和 **Client Secret** 写入 Railway Web 服务 **Variables**（不要写入 `.env.local`）
 
 ## 常用命令
 
@@ -315,7 +350,7 @@ Error: P1001: Can't reach database server at `localhost:5432`
 4. **确认 pre-deploy 能读到变量**  
    `preDeployCommand` 在 **Deploy** 阶段运行，可访问该服务的 Variables（含 Reference）。设置好 `DATABASE_URL` 后 **Redeploy** 即可。
 
-本地开发仍使用根目录 `.env`（`cp .env.example .env`）；`packages/db/.env` 可为指向根目录 `.env` 的 symlink，**不要提交**。
+本地开发使用根目录 **`.env.local`**（`cp .env.local.example .env.local`）；`apps/web` 通过 `next.config.ts` 从 monorepo 根加载，`packages/db` 与 Worker 通过 `scripts/load-local-env.mjs` 加载。若仍保留 `.env`，`.env.local` 会覆盖同名变量。**不要提交** `.env` / `.env.local`。
 
 ## 技术栈
 

@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
+    "dev": "node ../../scripts/run-with-local-env.mjs tsx watch src/index.ts",
     "build": "tsc",
-    "start": "tsx src/index.ts",
+    "start": "node ../../scripts/run-with-local-env.mjs tsx src/index.ts",
     "lint": "tsc --noEmit"
   },
   "dependencies": {
