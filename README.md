@@ -222,6 +222,8 @@ https://your-domain.com
 
 `NEXT_PUBLIC_BETTER_AUTH_URL` 必须与 `BETTER_AUTH_URL` 一致（含 `https://`，无尾部斜杠）。
 
+> **Auth 构建说明**：`NEXT_PUBLIC_BETTER_AUTH_URL` 会在 `pnpm build` 时内联进客户端 bundle。Railway Web 服务必须在**首次构建前**设置该变量；若只设置了 `BETTER_AUTH_URL`，`next.config.ts` 会在构建时将其同步到客户端。部署后若仍指向 localhost，请确认 Variables 已保存并 **Redeploy**（重新构建）。
+
 ### 六、GitHub OAuth 生产回调
 
 1. 打开 [GitHub Developer Settings → OAuth Apps](https://github.com/settings/developers)
