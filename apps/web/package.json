@@ -20,6 +20,7 @@
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
+    "@next/env": "^16.0.0",
     "@repo/tsconfig": "workspace:*",
     "@tailwindcss/postcss": "^4.1.10",
     "@types/node": "^22.15.30",

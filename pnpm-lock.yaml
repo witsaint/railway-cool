@@ -48,6 +48,9 @@ importers:
         specifier: ^19.1.0
         version: 19.2.7(react@19.2.7)
     devDependencies:
+      '@next/env':
+        specifier: ^16.0.0
+        version: 16.2.9
       '@repo/tsconfig':
         specifier: workspace:*
         version: link:../../packages/tsconfig
